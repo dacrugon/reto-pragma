@@ -1,6 +1,8 @@
 package com.pragma.reto.apibackend.controllers;
 
+import com.pragma.reto.apibackend.models.entity.Image;
 import com.pragma.reto.apibackend.models.entity.Person;
+import com.pragma.reto.apibackend.models.services.IImageService;
 import com.pragma.reto.apibackend.models.services.IPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,25 +17,42 @@ public class PersonRestController {
     @Autowired
     private IPersonService personService;
 
+    @Autowired
+    private IImageService imageService;
+
     @GetMapping("/people")
-    public List<Person> index(){
+    public List<Person> getPeople(){
         return personService.findAll();
     }
 
+    @GetMapping("/images")
+    public List<Image> getImages(){
+        return imageService.findAll();
+    }
     @GetMapping("/people/{id}")
-    public Person show(@PathVariable Long id){
+    public Person showPerson(@PathVariable Long id){
         return personService.findById(id);
     }
 
+    @GetMapping("/images/{id}")
+    public Image showImage(@PathVariable Long id){
+        return imageService.findById(id);
+    }
     @PostMapping("/people")
     @ResponseStatus(HttpStatus.CREATED)
-    public Person create(@RequestBody Person person){
+    public Person createPerson(@RequestBody Person person){
         return personService.save(person);
+    }
+
+    @PostMapping("/images")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Image createImage(@RequestBody Image image){
+        return imageService.save(image);
     }
 
     @PutMapping("/people/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    public Person update(@RequestBody Person person, @PathVariable Long id){
+    public Person updatePerson(@RequestBody Person person, @PathVariable Long id){
         Person currentPerson = personService.findById(id);
         currentPerson.setLastName(person.getLastName());
         currentPerson.setName(person.getName());
@@ -44,10 +63,25 @@ public class PersonRestController {
         return personService.save(currentPerson);
     }
 
+    @PutMapping("/images/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Image updateImage(@RequestBody Image image, @PathVariable Long id){
+        Image currentImage = imageService.findById(id);
+        currentImage.setImagePath(image.getImagePath());
+        currentImage.setImageUrl(image.getImageUrl());
+        return imageService.save(currentImage);
+    }
+
     @DeleteMapping("/people/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id){
+    public void deletePerson(@PathVariable Long id){
         personService.delete(id);
+    }
+
+    @DeleteMapping("/images/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteImage(@PathVariable Long id){
+        imageService.delete(id);
     }
 
 }
