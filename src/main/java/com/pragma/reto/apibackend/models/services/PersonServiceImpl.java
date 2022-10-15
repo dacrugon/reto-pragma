@@ -37,4 +37,16 @@ public class PersonServiceImpl implements IPersonService{
     public void delete(Long id) {
         personDao.deleteById(id);
     }
+
+    @Override
+    public List<Person> findByIdentificationTypeAndNumber(String identificationType, String identificationNumber) {
+        return personDao.findByIdentificationTypeAndNumber(identificationType,identificationNumber);
+    }
+
+    @Override
+    public List<Person> findPeopleAgeGreaterThanOrEqualsTo(Integer age) {
+        return personDao.findPeopleAgeGreaterThanOrEqualsTo(age);
+    }
+
+
 }

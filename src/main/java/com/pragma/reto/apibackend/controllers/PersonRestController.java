@@ -34,6 +34,16 @@ public class PersonRestController {
         return personService.findById(id);
     }
 
+    @GetMapping("/people/greaterThanOrEqualTo/{age}")
+    public List<Person> showPersonOrderByAge(@PathVariable Integer age){
+        return personService.findPeopleAgeGreaterThanOrEqualsTo(age);
+    }
+
+    @GetMapping("/people/{identificationType}/{identificationNumber}")
+    public List<Person> showPersonByIdTypeAndIdNumber(@PathVariable String identificationType, @PathVariable String identificationNumber){
+        return personService.findByIdentificationTypeAndNumber(identificationType,identificationNumber);
+    }
+
     @GetMapping("/images/{id}")
     public Image showImage(@PathVariable Long id){
         return imageService.findById(id);
@@ -83,5 +93,6 @@ public class PersonRestController {
     public void deleteImage(@PathVariable Long id){
         imageService.delete(id);
     }
+
 
 }
