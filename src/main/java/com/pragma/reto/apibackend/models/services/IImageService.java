@@ -3,6 +3,7 @@ package com.pragma.reto.apibackend.models.services;
 import com.pragma.reto.apibackend.models.entity.Image;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.InputStream;
 import java.util.List;
 
 public interface IImageService {
@@ -15,5 +16,9 @@ public interface IImageService {
 
     void delete(Long id);
 
-    String saveImage(MultipartFile imageFile);
+    String uploadImage(String path, MultipartFile file);
+
+    InputStream getResource(String path, String fileName);
+
+    void deleteImageInDisk(String path, String nameImage);
 }
