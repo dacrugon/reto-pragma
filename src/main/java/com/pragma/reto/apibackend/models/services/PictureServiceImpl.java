@@ -1,7 +1,7 @@
 package com.pragma.reto.apibackend.models.services;
 
-import com.pragma.reto.apibackend.models.dao.IImageDao;
-import com.pragma.reto.apibackend.models.entity.Image;
+import com.pragma.reto.apibackend.models.repository.IPictureRepository;
+import com.pragma.reto.apibackend.models.document.Picture;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,39 +9,35 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class ImageServiceImpl implements IImageService{
+public class PictureServiceImpl implements IPictureService {
 
     @Autowired
-    private IImageDao imageDao;
+    IPictureRepository pictureRepository;
+
+    //@Transactional(readOnly = true)
     @Override
-    @Transactional(readOnly = true)
-    public List<Image> findAll() {
-        return (List<Image>) imageDao.findAll();
+    public List<Picture> findAll() {
+        return pictureRepository.findAll();
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Image findById(Long id) {
-        return imageDao.findById(id).orElse(null);
+    public Picture save(Picture picture) {
+        return pictureRepository.save(picture);
     }
 
     @Override
-    @Transactional
-    public Image save(Image image) {
-        return imageDao.save(image);
+    public Picture findById(String id) {
+        return pictureRepository.findById(id).orElse(null);
     }
 
     @Override
-    @Transactional
-    public void delete(Long id) {
-        imageDao.deleteById(id);
+    public void delete(String id) {
+        pictureRepository.deleteById(id);
     }
 
     @Override
@@ -64,7 +60,7 @@ public class ImageServiceImpl implements IImageService{
 
         //file copy
         try {
-            Files.copy(file.getInputStream(),Paths.get(filePath));
+            Files.copy(file.getInputStream(), Paths.get(filePath));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -89,6 +85,7 @@ public class ImageServiceImpl implements IImageService{
         String fullPath = path+File.separator+nameImage;
         File file = new File(fullPath);
         file.delete();
+
     }
 
 

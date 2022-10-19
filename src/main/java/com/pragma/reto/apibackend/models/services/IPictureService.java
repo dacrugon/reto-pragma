@@ -1,24 +1,23 @@
 package com.pragma.reto.apibackend.models.services;
 
-import com.pragma.reto.apibackend.models.entity.Image;
+import com.pragma.reto.apibackend.models.document.Picture;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
 import java.util.List;
 
-public interface IImageService {
+public interface IPictureService {
 
-    List<Image> findAll();
-
-    Image findById(Long id);
-
-    Image save(Image image);
-
-    void delete(Long id);
-
-    String uploadImage(String path, MultipartFile file);
+    List<Picture> findAll();
+    Picture findById(String id);
 
     InputStream getResource(String path, String fileName);
 
+    Picture save(Picture picture);
+    String uploadImage(String path, MultipartFile file);
+
+
     void deleteImageInDisk(String path, String nameImage);
+    void delete(String id);
+
 }

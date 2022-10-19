@@ -1,6 +1,6 @@
 package com.pragma.reto.apibackend.models.services;
 
-import com.pragma.reto.apibackend.models.dao.IPersonDao;
+import com.pragma.reto.apibackend.models.repository.IPersonRepository;
 import com.pragma.reto.apibackend.models.entity.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,40 +12,40 @@ import java.util.List;
 public class PersonServiceImpl implements IPersonService{
 
     @Autowired
-    private IPersonDao personDao;
+    IPersonRepository personRepository;
 
     @Override
     @Transactional(readOnly = true)
     public List<Person> findAll() {
-        return (List<Person>) personDao.findAll();
+        return (List<Person>) personRepository.findAll();
     }
 
     @Override
     @Transactional(readOnly = true)
     public Person findById(Long id) {
-        return personDao.findById(id).orElse(null);
+        return personRepository.findById(id).orElse(null);
     }
 
     @Override
     @Transactional
     public Person save(Person person) {
-        return personDao.save(person);
+        return personRepository.save(person);
     }
 
     @Override
     @Transactional
     public void delete(Long id) {
-        personDao.deleteById(id);
+        personRepository.deleteById(id);
     }
 
     @Override
     public List<Person> findByIdentificationTypeAndNumber(String identificationType, String identificationNumber) {
-        return personDao.findByIdentificationTypeAndNumber(identificationType,identificationNumber);
+        return personRepository.findByIdentificationTypeAndNumber(identificationType,identificationNumber);
     }
 
     @Override
     public List<Person> findPeopleAgeGreaterThanOrEqualsTo(Integer age) {
-        return personDao.findPeopleAgeGreaterThanOrEqualsTo(age);
+        return personRepository.findPeopleAgeGreaterThanOrEqualsTo(age);
     }
 
 

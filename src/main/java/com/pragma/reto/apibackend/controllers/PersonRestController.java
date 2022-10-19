@@ -1,9 +1,9 @@
 package com.pragma.reto.apibackend.controllers;
 
-import com.pragma.reto.apibackend.models.entity.Image;
+import com.pragma.reto.apibackend.models.document.Picture;
 import com.pragma.reto.apibackend.models.entity.Person;
-import com.pragma.reto.apibackend.models.services.IImageService;
 import com.pragma.reto.apibackend.models.services.IPersonService;
+import com.pragma.reto.apibackend.models.services.IPictureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -15,11 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api")
@@ -29,7 +25,7 @@ public class PersonRestController {
     private IPersonService personService;
 
     @Autowired
-    private IImageService imageService;
+    private IPictureService pictureService;
 
     @Value("${project.image}")
     private String path;
@@ -40,9 +36,9 @@ public class PersonRestController {
         return personService.findAll();
     }
 
-    @GetMapping("/images")
-    public List<Image> getImages(){
-        return imageService.findAll();
+    @GetMapping("/pictures")
+    public List<Picture> getPictures(){
+        return pictureService.findAll();
     }
 
     //getById()
@@ -51,15 +47,15 @@ public class PersonRestController {
         return personService.findById(id);
     }
 
-    @GetMapping("/images/{id}")
-    public Image showImage(@PathVariable Long id){
-        return imageService.findById(id);
+    @GetMapping("/pictures/{id}")
+    public Picture showImage(@PathVariable String id){
+        return pictureService.findById(id);
     }
 
         //getImageByNameFile()
-    @GetMapping(value = "/images/download/{imageName}",produces = MediaType.IMAGE_JPEG_VALUE)
+    @GetMapping(value = "/pictures/download/{imageName}",produces = MediaType.IMAGE_JPEG_VALUE)
     public void downloadImage(@PathVariable("imageName") String imageName, HttpServletResponse response){
-        InputStream resource = imageService.getResource(path,imageName);
+        InputStream resource = pictureService.getResource(path,imageName);
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);
         try {
             StreamUtils.copy(resource, response.getOutputStream());
@@ -84,21 +80,21 @@ public class PersonRestController {
         return personService.save(person);
     }
 
-    @PostMapping("/images")
-    public Image createImage(Image image, @RequestParam("imageFile") MultipartFile imageFile){
+    @PostMapping("/pictures")
+    public Picture createImage(Picture image, @RequestParam("imageFile") MultipartFile imageFile){
 
         //save image and get file name
-        String fileName = imageService.uploadImage(path,imageFile);
+        String fileName = pictureService.uploadImage(path,imageFile);
 
-        image.setImageUrl(fileName);
+        image.setPictureUrl(fileName);
 
-        return imageService.save(image);
+        return pictureService.save(image);
     }
 
     //update()
     @PutMapping("/people/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    public Person updatePerson(@RequestBody Person person, @PathVariable Long id){
+    public Person updatePerson(Person person, @PathVariable Long id){
         Person currentPerson = personService.findById(id);
         currentPerson.setLastName(person.getLastName());
         currentPerson.setName(person.getName());
@@ -109,19 +105,19 @@ public class PersonRestController {
         return personService.save(currentPerson);
     }
 
-    @PutMapping("/images/{id}")
+    @PutMapping("/pictures/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    public Image updateImage( @PathVariable Long id, @RequestParam("imageFile") MultipartFile imageFile){
+    public Picture updateImage( @PathVariable String id, @RequestParam("imageFile") MultipartFile imageFile){
 
-        Image currentImage = imageService.findById(id);
+        Picture currentImage = pictureService.findById(id);
 
-        imageService.deleteImageInDisk(path,currentImage.getImageUrl());
+        pictureService.deleteImageInDisk(path,currentImage.getPictureUrl());
 
         //save image and get file name
-        String fileName = imageService.uploadImage(path,imageFile);
+        String fileName = pictureService.uploadImage(path,imageFile);
 
-        currentImage.setImageUrl(fileName);
-        return imageService.save(currentImage);
+        currentImage.setPictureUrl(fileName);
+        return pictureService.save(currentImage);
     }
 
     //delete()
@@ -131,13 +127,13 @@ public class PersonRestController {
         personService.delete(id);
     }
 
-    @DeleteMapping("/images/{id}")
+    @DeleteMapping("/pictures/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteImage(@PathVariable Long id){
-        Image image = imageService.findById(id);
+    public void deleteImage(@PathVariable String id){
+        Picture image = pictureService.findById(id);
 
-        imageService.deleteImageInDisk(path,image.getImageUrl());
-        imageService.delete(id);
+        pictureService.deleteImageInDisk(path,image.getPictureUrl());
+        pictureService.delete(id);
     }
 
 }

@@ -1,10 +1,12 @@
 package com.pragma.reto.apibackend.models.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -23,14 +25,11 @@ public class Person implements Serializable {
     @Column(name = "identification_number")
     private String identificationNumber;
     @Column(name = "date_birth")
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date dateBirth;
     @Column(name = "city_birth")
     private String cityBirth;
     @Column(name = "create_at")
-    private Date createAt;
-
-    @PrePersist
-    public void prePersist(){
-        createAt = new Date();
-    }
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createdDate = LocalDateTime.now();
 }
