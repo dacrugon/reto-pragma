@@ -1,6 +1,7 @@
 package com.pragma.reto.apibackend.models.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,6 +17,7 @@ import java.util.Date;
 public class Person implements Serializable {
     @Id
     @Column(name="idperson")
+    //@JsonIgnore
     private long id;
     private String name;
     @Column(name = "last_name")
