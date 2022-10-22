@@ -171,7 +171,7 @@ public class PersonRestController {
         List<Person> people;
         Map<String, Object> response;
         try{
-            people= personService.findByIdentificationTypeAndNumber(identificationType,identificationNumber);
+            people= personService.findByIdentificationTypeAndIdentificationNumber(identificationType,identificationNumber);
         }catch (DataAccessException e){
             response = responseApi(
                     HttpStatus.INTERNAL_SERVER_ERROR.value(),

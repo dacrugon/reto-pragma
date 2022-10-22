@@ -39,8 +39,8 @@ public class PersonServiceImpl implements IPersonService{
     }
 
     @Override
-    public List<Person> findByIdentificationTypeAndNumber(String identificationType, String identificationNumber) {
-        return personRepository.findByIdentificationTypeAndNumber(identificationType,identificationNumber);
+    public List<Person> findByIdentificationTypeAndIdentificationNumber(String identificationType, String identificationNumber) {
+        return personRepository.findByIdentificationTypeAndIdentificationNumber(identificationType,identificationNumber);
     }
 
     @Override

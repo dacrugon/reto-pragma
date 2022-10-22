@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Setter
 public class Picture {
     @Id
-    //@JsonIgnore
+    @JsonIgnore
     private String id;
     private long idPerson;
     private String pictureName;

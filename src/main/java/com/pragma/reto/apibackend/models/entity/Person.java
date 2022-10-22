@@ -17,7 +17,7 @@ import java.util.Date;
 public class Person implements Serializable {
     @Id
     @Column(name="idperson")
-    //@JsonIgnore
+    @JsonIgnore
     private long id;
     private String name;
     @Column(name = "last_name")

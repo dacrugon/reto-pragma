@@ -14,7 +14,7 @@ public interface IPersonService {
 
     void delete(Long id);
 
-    List<Person> findByIdentificationTypeAndNumber(String identificationType, String identificationNumber);
+    List<Person> findByIdentificationTypeAndIdentificationNumber(String identificationType, String identificationNumber);
 
     List<Person> findPeopleAgeGreaterThanOrEqualsTo(Integer age);
 
