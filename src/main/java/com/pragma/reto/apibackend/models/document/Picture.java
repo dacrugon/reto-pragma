@@ -16,8 +16,8 @@ public class Picture {
     @Id
     @JsonIgnore
     private String id;
-    private long idPerson;
+    private String identificationNumber;
     private String pictureName;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDateTime createdDate = LocalDateTime.now();
 }

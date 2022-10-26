@@ -24,7 +24,7 @@ public class Person implements Serializable {
     private String lastName;
     @Column(name = "identification_type")
     private String identificationType;
-    @Column(name = "identification_number")
+    @Column(name = "identification_number",nullable = false,unique = true)
     private String identificationNumber;
     @Column(name = "date_birth")
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
@@ -32,6 +32,6 @@ public class Person implements Serializable {
     @Column(name = "city_birth")
     private String cityBirth;
     @Column(name = "create_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDateTime createdDate = LocalDateTime.now();
 }

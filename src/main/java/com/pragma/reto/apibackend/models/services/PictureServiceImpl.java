@@ -26,19 +26,15 @@ public class PictureServiceImpl implements IPictureService {
     }
 
     @Override
+    public Picture findByIdentificationNumber(String in) {
+        return pictureRepository.findByIdentificationNumber(in);
+    }
+
+    @Override
     public Picture save(Picture picture) {
         return pictureRepository.save(picture);
     }
 
-    @Override
-    public Picture findById(String id) {
-        return pictureRepository.findById(id).orElse(null);
-    }
-
-    @Override
-    public void delete(String id) {
-        pictureRepository.deleteById(id);
-    }
 
     @Override
     public String uploadImage(String path, MultipartFile file) {
@@ -85,6 +81,12 @@ public class PictureServiceImpl implements IPictureService {
         String fullPath = path+File.separator+nameImage;
         File file = new File(fullPath);
         file.delete();
+
+    }
+
+    @Override
+    public void deleteByIdentificationNumber(String in) {
+        pictureRepository.deleteByIdentificationNumber(in);
 
     }
 

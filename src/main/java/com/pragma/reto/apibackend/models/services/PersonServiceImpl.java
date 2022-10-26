@@ -21,9 +21,8 @@ public class PersonServiceImpl implements IPersonService{
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Person findById(Long id) {
-        return personRepository.findById(id).orElse(null);
+    public Person findByIdentificationNumber(String in) {
+        return personRepository.findByIdentificationNumber(in);
     }
 
     @Override
@@ -34,8 +33,8 @@ public class PersonServiceImpl implements IPersonService{
 
     @Override
     @Transactional
-    public void delete(Long id) {
-        personRepository.deleteById(id);
+    public void delete(String id) {
+        personRepository.deleteByIdentificationNumber(id);
     }
 
     @Override

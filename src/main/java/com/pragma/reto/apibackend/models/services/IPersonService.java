@@ -7,12 +7,11 @@ import java.util.List;
 public interface IPersonService {
 
     List<Person> findAll();
-
-    Person findById(Long id);
+    Person findByIdentificationNumber(String in);
 
     Person save(Person person);
 
-    void delete(Long id);
+    void delete(String in);
 
     List<Person> findByIdentificationTypeAndIdentificationNumber(String identificationType, String identificationNumber);
 

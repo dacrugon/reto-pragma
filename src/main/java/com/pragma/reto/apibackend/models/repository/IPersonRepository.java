@@ -11,8 +11,8 @@ import java.util.List;
 public interface IPersonRepository extends JpaRepository<Person, Long> {
 
     List<Person> findByIdentificationTypeAndIdentificationNumber(String identificationType, String identificationNumber);
-
+    Person findByIdentificationNumber(String in);
     @Query("SELECT p FROM Person p WHERE timestampdiff(year, p.dateBirth, curdate()) >= ?1")
     List<Person> findPeopleAgeGreaterThanOrEqualsTo(Integer age);
-
+    void deleteByIdentificationNumber(String in);
 }
