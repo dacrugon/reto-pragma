@@ -4,11 +4,17 @@ import com.pragma.reto.apibackend.exceptions.RequestException;
 import com.pragma.reto.apibackend.models.entity.Person;
 import com.pragma.reto.apibackend.models.services.IPersonService;
 import com.pragma.reto.apibackend.response.ResponseHandler;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Book;
 import java.util.List;
 import java.util.Map;
 
@@ -18,11 +24,13 @@ public class PersonRestController {
 
     @Autowired
     private IPersonService personService;
-
+    @Operation(summary = "Get all people")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "found people"),
+            @ApiResponse(responseCode = "404", description = "people not found",content = @Content)})
     @GetMapping("/people")
     public ResponseEntity<Object> getPeople(){
         List<Person> people = personService.findAll();;
-        Map<String, Object> response;
 
         if(people.isEmpty()){
             throw new RequestException("P-404",HttpStatus.NOT_FOUND,"Empty list");
@@ -64,7 +72,7 @@ public class PersonRestController {
     }
 
     @PutMapping("/people/{in}")
-    public ResponseEntity<?> updatePerson(Person person, @PathVariable String in){
+    public ResponseEntity<?> updatePersonByIdentificationNumber(Person person, @PathVariable String in){
         Person currentPerson = personService.findByIdentificationNumber(in);
         Person personUpdated;
 
@@ -83,8 +91,8 @@ public class PersonRestController {
 
     }
 
-    @DeleteMapping("/people/{id}")
-    public ResponseEntity<?> deletePerson(@PathVariable String in){
+    @DeleteMapping("/people/{in}")
+    public ResponseEntity<?> deletePersonByIdentificationNumber(@PathVariable String in){
         Person currentPerson = personService.findByIdentificationNumber(in);
         if(currentPerson == null){
             throw new RequestException("P-404",HttpStatus.NOT_FOUND,"Not found");

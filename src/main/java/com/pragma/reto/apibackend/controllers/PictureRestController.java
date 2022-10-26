@@ -39,7 +39,7 @@ public class PictureRestController {
     }
 
     @GetMapping("/pictures/{in}")
-    public ResponseEntity<Object> showImage(@PathVariable String in){
+    public ResponseEntity<Object> showPictureByIdentificationNumber(@PathVariable String in){
         Picture picture = pictureService.findByIdentificationNumber(in);
 
         if(picture == null){
@@ -49,7 +49,7 @@ public class PictureRestController {
     }
 
     @GetMapping(value = "/pictures/download/{imageName}",produces = MediaType.IMAGE_JPEG_VALUE)
-    public void downloadImage(@PathVariable("imageName") String imageName, HttpServletResponse response){
+    public void downloadPictureByFileName(@PathVariable("imageName") String imageName, HttpServletResponse response){
         InputStream resource = pictureService.getResource(path,imageName);
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);
         try {
@@ -59,7 +59,7 @@ public class PictureRestController {
         }
     }
     @PostMapping("/pictures")
-    public ResponseEntity<?> createImage(Picture picture, @RequestParam("imageFile") MultipartFile imageFile){
+    public ResponseEntity<?> createPicture(Picture picture, @RequestParam("imageFile") MultipartFile imageFile){
         String fileName = pictureService.uploadImage(path,imageFile);
         picture.setPictureName(fileName);
         Picture pictureNew = pictureService.save(picture);
@@ -67,7 +67,7 @@ public class PictureRestController {
     }
 
     @PutMapping("/pictures/{in}")
-    public ResponseEntity<?> updateImage( @PathVariable String in, @RequestParam("imageFile") MultipartFile imageFile){
+    public ResponseEntity<?> updatePictureByIdentificationNumber( @PathVariable String in, @RequestParam("imageFile") MultipartFile imageFile){
 
         Picture currentImage = pictureService.findByIdentificationNumber(in);
         Picture imageUpdated;
@@ -84,7 +84,7 @@ public class PictureRestController {
     }
 
     @DeleteMapping("/pictures/{in}")
-    public ResponseEntity<?> deleteImage(@PathVariable String in){
+    public ResponseEntity<?> deletePictureByIdentificationNumber(@PathVariable String in){
         Picture pictureCurrent = pictureService.findByIdentificationNumber(in);
 
         if(pictureCurrent == null){

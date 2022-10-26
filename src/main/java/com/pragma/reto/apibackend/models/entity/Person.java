@@ -24,7 +24,7 @@ public class Person implements Serializable {
     private String lastName;
     @Column(name = "identification_type")
     private String identificationType;
-    @Column(name = "identification_number",nullable = false,unique = true)
+    @Column(name = "identification_number")
     private String identificationNumber;
     @Column(name = "date_birth")
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
